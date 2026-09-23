@@ -1,0 +1,14 @@
+{% extends "toolbox/base.html" %}
+{% block title %}دسته جدید{% endblock %}
+{% block content %}
+<section class="narrow">
+  <h1>دسته جدید</h1>
+  <form method="post" class="panel">
+    {% csrf_token %}
+    {% for field in form %}
+      <label class="field"><span>{{ field.label }}</span>{{ field }}{{ field.errors }}</label>
+    {% endfor %}
+    <button class="btn btn-primary" type="submit">ذخیره</button>
+  </form>
+</section>
+{% endblock %}

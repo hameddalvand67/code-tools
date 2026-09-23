@@ -1,0 +1,51 @@
+{% extends "toolbox/base.html" %}
+{% block content %}
+<section class="hero">
+  <p class="kicker">پلتفرم رایگان دستور و فلو</p>
+  <h1>{{ site.tagline }}</h1>
+  <p class="lede">{{ site.intro|linebreaksbr }}</p>
+  {% if user.is_authenticated %}
+    <div class="row-gap">
+      <a class="btn btn-primary" href="{% url 'action_create' %}">ساخت فلو یا عمل</a>
+      <a class="btn" href="{% url 'category_create' %}">دسته جدید</a>
+    </div>
+  {% endif %}
+</section>
+
+{% if results is not None %}
+  <section>
+    <h2>نتایج «{{ q }}»</h2>
+    {% if results %}
+      <div class="cards">
+        {% for a in results %}{% include "toolbox/_action_card.html" %}{% endfor %}
+      </div>
+    {% else %}
+      <p class="muted">چیزی پیدا نشد. عنوان یا بخشی از دستور را امتحان کنید.</p>
+    {% endif %}
+  </section>
+{% else %}
+  {% if flows %}
+    <section>
+      <div class="section-head">
+        <h2>فلوها</h2>
+        <p>هر فلو از چند عمل قابل‌استفاده مجدد ساخته شده است.</p>
+      </div>
+      <div class="cards">
+        {% for a in flows %}{% include "toolbox/_action_card.html" %}{% endfor %}
+      </div>
+    </section>
+  {% endif %}
+
+  {% if library %}
+    <section>
+      <div class="section-head">
+        <h2>عمل‌های قابل استفاده مجدد</h2>
+        <a href="{% url 'library' %}">همه کتابخانه</a>
+      </div>
+      <div class="cards">
+        {% for a in library %}{% include "toolbox/_action_card.html" %}{% endfor %}
+      </div>
+    </section>
+  {% endif %}
+{% endif %}
+{% endblock %}

@@ -1,0 +1,88 @@
+:root {
+  --bg: #f4f7fb;
+  --card: #fff;
+  --ink: #122033;
+  --muted: #5b6b7e;
+  --line: #d7e0ea;
+  --brand: #0f766e;
+  --brand-2: #115e59;
+  --code-bg: #0f172a;
+  --radius: 16px;
+  --font: "Vazirmatn", Tahoma, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, monospace;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.75;
+}
+a { color: var(--brand-2); text-decoration: none; }
+.wrap { width: min(1080px, calc(100% - 28px)); margin: 0 auto; }
+.top { background: #0b1c2c; color: #fff; padding: 14px 0 10px; }
+.top a { color: #fff; }
+.bar { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.brand { display: flex; gap: 8px; align-items: center; font-weight: 800; }
+.logo { background: var(--brand); width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; font-family: var(--mono); }
+.search { flex: 1; min-width: 220px; }
+.search input, .input, select, textarea {
+  width: 100%; border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; font: inherit; background: #fff;
+}
+.search input { background: #13283d; color: #fff; border-color: #23415c; }
+.nav { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.chips { display: flex; gap: 8px; flex-wrap: wrap; padding: 10px 0 4px; }
+.chip {
+  background: #143047; color: #d7f3ef; border-radius: 999px; padding: 6px 12px; font-size: .9rem;
+}
+.chip.is-on, .tabs .is-on { background: var(--brand); color: #fff; }
+.hero { padding: 28px 0 8px; }
+.kicker { color: var(--brand); font-weight: 700; margin: 0 0 8px; }
+h1 { font-size: clamp(1.5rem, 3vw, 2.1rem); margin: 0 0 10px; }
+h2 { margin: 28px 0 12px; }
+.lede, .muted { color: var(--muted); }
+.cards { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+.card, .panel, .cmd, .nest {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px;
+}
+.card h3 { margin: 8px 0; }
+.card-top, .cmd-head, .step-line, .row-gap, .action-head, .section-head {
+  display: flex; gap: 8px; align-items: center; justify-content: space-between; flex-wrap: wrap;
+}
+.badge { background: #ccfbf1; color: #115e59; border-radius: 999px; padding: 2px 8px; font-size: .78rem; font-weight: 700; }
+.badge-mute { background: #e8eef5; color: #334155; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 1px solid var(--line); background: #fff; border-radius: 12px; padding: 8px 12px;
+  font: inherit; font-weight: 700; cursor: pointer; color: var(--ink);
+}
+.btn-primary { background: var(--brand); color: #fff; border-color: var(--brand); }
+.btn-sm { padding: 4px 10px; font-size: .85rem; }
+.danger { color: #b91c1c; }
+.cmd { margin: 10px 0; }
+.code {
+  background: var(--code-bg); color: #e2e8f0; border-radius: 12px; padding: 12px 14px;
+  overflow: auto; font-family: var(--mono); font-size: .86rem; line-height: 1.55; margin: 8px 0 0;
+}
+.lang { font-size: .75rem; color: var(--muted); }
+.notes { margin: 6px 0; color: var(--muted); }
+.nest { margin: 12px 0; }
+.nest summary { cursor: pointer; font-weight: 700; display: flex; justify-content: space-between; gap: 8px; }
+.flash { background: #ecfdf5; border: 1px solid #a7f3d0; padding: 10px 12px; border-radius: 12px; margin: 12px 0; }
+.field { display: grid; gap: 6px; margin: 10px 0; font-weight: 700; }
+.field small, .field ul { font-weight: 500; color: var(--muted); }
+.two { display: grid; gap: 12px; grid-template-columns: 1fr; }
+.narrow { max-width: 460px; }
+.col-gap { display: grid; gap: 8px; justify-items: end; }
+.tags span { background: #e8eef5; border-radius: 999px; padding: 2px 8px; margin-left: 6px; font-size: .8rem; }
+.steps-edit { padding: 0; list-style: none; display: grid; gap: 8px; }
+.suggest {
+  position: absolute; background: #fff; border: 1px solid var(--line); border-radius: 12px;
+  min-width: 260px; box-shadow: 0 10px 30px rgba(15,23,42,.12); z-index: 20;
+}
+.suggest a { display: block; padding: 8px 12px; color: var(--ink); }
+.suggest a:hover { background: #f1f5f9; }
+@media (min-width: 840px) {
+  .two { grid-template-columns: 1fr 1fr; }
+}

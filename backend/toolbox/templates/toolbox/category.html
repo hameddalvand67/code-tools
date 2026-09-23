@@ -1,0 +1,11 @@
+{% extends "toolbox/base.html" %}
+{% block title %}{{ category.name }} | {{ site.site_name }}{% endblock %}
+{% block content %}
+<h1>{{ category.icon }} {{ category.name }}</h1>
+{% if category.description %}<p class="lede">{{ category.description }}</p>{% endif %}
+<div class="cards">
+  {% for a in actions %}{% include "toolbox/_action_card.html" %}{% empty %}
+    <p class="muted">در این دسته هنوز عملی نیست.</p>
+  {% endfor %}
+</div>
+{% endblock %}

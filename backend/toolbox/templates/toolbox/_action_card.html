@@ -1,0 +1,8 @@
+<a class="card" href="{{ a.get_absolute_url }}">
+  <div class="card-top">
+    {% if a.is_flow %}<span class="badge">فلو</span>{% else %}<span class="badge badge-mute">عمل</span>{% endif %}
+    {% if a.category %}<span class="muted">{{ a.category.icon }} {{ a.category.name }}</span>{% endif %}
+  </div>
+  <h3>{{ a.title }}</h3>
+  {% if a.summary %}<p>{{ a.summary }}</p>{% endif %}
+</a>

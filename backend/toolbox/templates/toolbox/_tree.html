@@ -1,0 +1,29 @@
+{% for node in nodes %}
+  {% if node.kind == "command" %}
+    <article class="cmd">
+      <div class="cmd-head">
+        <strong>{{ node.title }}</strong>
+        <span class="lang">{{ node.language }}</span>
+        <button type="button" class="btn btn-sm" data-copy>کپی</button>
+      </div>
+      {% if node.notes %}<p class="notes">{{ node.notes }}</p>{% endif %}
+      <pre class="code" dir="ltr"><code>{{ node.body }}</code></pre>
+    </article>
+  {% else %}
+    <details class="nest" open>
+      <summary>
+        <span>زیرعمل · {{ node.title }}</span>
+        {% if node.nested_slug %}
+          <a href="{% url 'action' node.nested_slug %}">باز کردن مستقل</a>
+        {% endif %}
+      </summary>
+      {% if node.cycle %}
+        <p class="muted">ارجاع حلقه‌ای؛ نمایش متوقف شد.</p>
+      {% else %}
+        {% include "toolbox/_tree.html" with nodes=node.children %}
+      {% endif %}
+    </details>
+  {% endif %}
+{% empty %}
+  <p class="muted">هنوز گامی ندارد.</p>
+{% endfor %}

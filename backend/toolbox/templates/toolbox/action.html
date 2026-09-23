@@ -1,0 +1,59 @@
+{% extends "toolbox/base.html" %}
+{% block title %}{{ action.title }} | {{ site.site_name }}{% endblock %}
+{% block content %}
+<p class="crumb">
+  <a href="{% url 'home' %}">خانه</a>
+  {% if action.category %} / <a href="{{ action.category.get_absolute_url }}">{{ action.category.name }}</a>{% endif %}
+  / {{ action.title }}
+</p>
+<div class="action-head">
+  <div>
+    <div class="row-gap">
+      {% if action.is_flow %}<span class="badge">فلو</span>{% endif %}
+      {% if action.is_library %}<span class="badge badge-mute">قابل استفاده مجدد</span>{% endif %}
+    </div>
+    <h1>{{ action.title }}</h1>
+    {% if action.summary %}<p class="lede">{{ action.summary }}</p>{% endif %}
+    {% if action.tag_list %}
+      <p class="tags">{% for t in action.tag_list %}<span>{{ t }}</span>{% endfor %}</p>
+    {% endif %}
+  </div>
+  <div class="col-gap">
+    {% if user.is_authenticated %}
+      <a class="btn btn-primary" href="{% url 'action_edit' action.slug %}">ویرایش درخت</a>
+    {% endif %}
+    <div class="tabs">
+      <a class="chip {% if view != 'run' %}is-on{% endif %}" href="?view=tree">نمایش درختی</a>
+      <a class="chip {% if view == 'run' %}is-on{% endif %}" href="?view=run">چک‌لیست اجرا</a>
+    </div>
+  </div>
+</div>
+
+{% if used_in %}
+  <p class="muted">استفاده شده در:
+    {% for u in used_in %}
+      <a href="{{ u.parent.get_absolute_url }}">{{ u.parent.title }}</a>{% if not forloop.last %}، {% endif %}
+    {% endfor %}
+  </p>
+{% endif %}
+
+{% if view == "run" %}
+  <ol class="runbook">
+    {% for node in flat %}
+      <li class="cmd">
+        <div class="cmd-head">
+          <strong>{{ forloop.counter }}. {{ node.title }}</strong>
+          <button type="button" class="btn btn-sm" data-copy>کپی</button>
+        </div>
+        <pre class="code" dir="ltr"><code>{{ node.body }}</code></pre>
+      </li>
+    {% empty %}
+      <p class="muted">دستوری در این فلو نیست.</p>
+    {% endfor %}
+  </ol>
+{% else %}
+  <div class="tree">
+    {% include "toolbox/_tree.html" with nodes=nodes %}
+  </div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{{ site.site_name }}{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'toolbox/css/app.css' %}">
+</head>
+<body>
+  <header class="top">
+    <div class="wrap bar">
+      <a class="brand" href="{% url 'home' %}">
+        <span class="logo">{ }</span>
+        <strong>{{ site.site_name }}</strong>
+      </a>
+      <form class="search" action="{% url 'home' %}" method="get">
+        <input name="q" value="{{ q|default:'' }}" placeholder="جستجوی فلو، عمل یا دستور..." autocomplete="off" data-live-search>
+      </form>
+      <nav class="nav">
+        <a href="{% url 'library' %}">کتابخانه عمل‌ها</a>
+        {% if user.is_authenticated %}
+          <a class="btn btn-primary" href="{% url 'action_create' %}">فلو / عمل جدید</a>
+          <a href="{% url 'logout' %}">خروج</a>
+        {% else %}
+          <a href="{% url 'login' %}">ورود مدیریت</a>
+        {% endif %}
+      </nav>
+    </div>
+    {% if nav_categories %}
+      <div class="wrap chips">
+        {% for c in nav_categories %}
+          <a class="chip" href="{% url 'category' c.slug %}">{{ c.icon }} {{ c.name }}</a>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </header>
+
+  {% if messages %}
+    <div class="wrap flashes">
+      {% for message in messages %}<div class="flash">{{ message }}</div>{% endfor %}
+    </div>
+  {% endif %}
+
+  <main class="wrap">
+    {% block content %}{% endblock %}
+  </main>
+  <div class="suggest" hidden data-suggest></div>
+  <script src="{% static 'toolbox/js/app.js' %}"></script>
+</body>
+</html>

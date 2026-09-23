@@ -1,0 +1,9 @@
+{% extends "toolbox/base.html" %}
+{% block title %}کتابخانه عمل‌ها | {{ site.site_name }}{% endblock %}
+{% block content %}
+<h1>کتابخانه عمل‌ها</h1>
+<p class="lede">هر مورد یک درخت مستقل است و می‌توانید آن را داخل هر فلو دیگری قرار دهید.</p>
+<div class="cards">
+  {% for a in actions %}{% include "toolbox/_action_card.html" %}{% endfor %}
+</div>
+{% endblock %}

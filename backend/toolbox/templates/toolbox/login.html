@@ -1,0 +1,20 @@
+{% extends "toolbox/base.html" %}
+{% block title %}ورود | {{ site.site_name }}{% endblock %}
+{% block content %}
+<section class="narrow">
+  <h1>ورود مدیریت</h1>
+  <p class="muted">مشاهده و کپی برای همه آزاد است. ورود فقط برای ساخت و ویرایش فلو.</p>
+  <form method="post" class="panel">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    {% for field in form %}
+      <label class="field">
+        <span>{{ field.label }}</span>
+        {{ field }}
+        {{ field.errors }}
+      </label>
+    {% endfor %}
+    <button class="btn btn-primary" type="submit">ورود</button>
+  </form>
+</section>
+{% endblock %}

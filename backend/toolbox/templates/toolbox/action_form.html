@@ -1,0 +1,65 @@
+{% extends "toolbox/base.html" %}
+{% block title %}{% if action %}ویرایش {{ action.title }}{% else %}عمل جدید{% endif %}{% endblock %}
+{% block content %}
+<h1>{% if action %}ویرایش درخت{% else %}ساخت فلو یا عمل{% endif %}</h1>
+<p class="lede">عنوان را بگذارید، بعد دستور اضافه کنید یا یک عمل موجود را به‌عنوان زیرعمل وصل کنید.</p>
+
+<form method="post" class="panel">
+  {% csrf_token %}
+  {{ form.non_field_errors }}
+  {% for field in form %}
+    <label class="field">
+      <span>{{ field.label }}</span>
+      {{ field }}
+      {% if field.help_text %}<small>{{ field.help_text }}</small>{% endif %}
+      {{ field.errors }}
+    </label>
+  {% endfor %}
+  <button class="btn btn-primary" name="save_meta" value="1" type="submit">ذخیره مشخصات</button>
+  {% if action %}<a class="btn" href="{{ action.get_absolute_url }}">مشاهده</a>{% endif %}
+</form>
+
+{% if action %}
+  <h2>گام‌های درخت</h2>
+  <ol class="steps-edit">
+    {% for s in steps %}
+      <li>
+        <div class="step-line">
+          <strong>{% if s.kind == "action" %}↳ {{ s.display_title }}{% else %}⌘ {{ s.display_title }}{% endif %}</strong>
+          <span class="muted">{{ s.get_kind_display }}</span>
+          <form method="post" action="{% url 'move_step' s.pk 'up' %}">{% csrf_token %}<button class="btn btn-sm" type="submit">بالا</button></form>
+          <form method="post" action="{% url 'move_step' s.pk 'down' %}">{% csrf_token %}<button class="btn btn-sm" type="submit">پایین</button></form>
+          <form method="post" action="{% url 'delete_step' s.pk %}" onsubmit="return confirm('حذف شود؟')">{% csrf_token %}<button class="btn btn-sm danger" type="submit">حذف</button></form>
+        </div>
+      </li>
+    {% empty %}
+      <li class="muted">هنوز گامی نیست.</li>
+    {% endfor %}
+  </ol>
+
+  <div class="two">
+    <form method="post" action="{% url 'add_command' action.slug %}" class="panel">
+      {% csrf_token %}
+      <h3>افزودن دستور / کد</h3>
+      {% for field in cmd_form %}
+        <label class="field"><span>{{ field.label }}</span>{{ field }}{{ field.errors }}</label>
+      {% endfor %}
+      <button class="btn btn-primary" type="submit">افزودن دستور</button>
+    </form>
+    <form method="post" action="{% url 'add_nested' action.slug %}" class="panel">
+      {% csrf_token %}
+      <h3>افزودن زیرعمل (درخت دیگر)</h3>
+      <p class="muted">همان عمل در فلوهای دیگر هم می‌ماند؛ اینجا فقط ارجاع داده می‌شود.</p>
+      {% for field in nest_form %}
+        <label class="field"><span>{{ field.label }}</span>{{ field }}{{ field.errors }}</label>
+      {% endfor %}
+      <button class="btn btn-primary" type="submit">وصل کردن عمل</button>
+    </form>
+  </div>
+
+  <form method="post" action="{% url 'delete_action' action.slug %}" onsubmit="return confirm('کل این عمل حذف شود؟')">
+    {% csrf_token %}
+    <button class="btn danger" type="submit">حذف کل عمل</button>
+  </form>
+{% endif %}
+{% endblock %}
